@@ -111,6 +111,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const authPasswordConfirmGroup = document.getElementById('authPasswordConfirmGroup');
     const authPasswordConfirmInput = document.getElementById('authPasswordConfirm');
     const authSubmitBtn = document.getElementById('authSubmitBtn');
+    const authForgotLink = document.getElementById('authForgotLink');
+    const authBackToLoginBtn = document.getElementById('authBackToLoginBtn');
+    const authModeTabs = document.querySelector('.auth-mode-tabs');
     const userProfileBadge = document.getElementById('userProfileBadge');
     const userAvatar = document.getElementById('userAvatar');
     const userName = document.getElementById('userName');
@@ -126,7 +129,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         authAlert.className = `auth-alert ${type}`;
-        authAlert.innerHTML = `<i class="fas fa-${type === 'error' ? 'circle-exclamation' : 'circle-check'}"></i> <span>${msg}</span>`;
+        authAlert.replaceChildren();
+        const icon = document.createElement('i');
+        icon.className = `fas fa-${type === 'error' ? 'circle-exclamation' : 'circle-check'}`;
+        const message = document.createElement('span');
+        message.textContent = msg;
+        authAlert.append(icon, message);
         authAlert.style.display = 'flex';
     };
 
@@ -157,36 +165,64 @@ document.addEventListener('DOMContentLoaded', () => {
     const setAuthMode = (mode) => {
         currentAuthMode = mode;
         const isSignup = mode === 'signup';
+        const isLogin = mode === 'login';
+        const isForgot = mode === 'forgot';
+        const isReset = mode === 'reset';
+        const hasPassword = !isForgot;
 
         if (authModeLoginBtn) {
-            authModeLoginBtn.classList.toggle('active', !isSignup);
-            authModeLoginBtn.setAttribute('aria-pressed', String(!isSignup));
+            authModeLoginBtn.classList.toggle('active', isLogin);
+            authModeLoginBtn.setAttribute('aria-pressed', String(isLogin));
         }
         if (authModeSignupBtn) {
             authModeSignupBtn.classList.toggle('active', isSignup);
             authModeSignupBtn.setAttribute('aria-pressed', String(isSignup));
         }
+        if (authModeTabs) authModeTabs.style.display = isLogin || isSignup ? 'grid' : 'none';
         if (authFullNameGroup) authFullNameGroup.style.display = isSignup ? 'flex' : 'none';
         if (authFullNameInput) authFullNameInput.required = isSignup;
-        if (authTitle) authTitle.textContent = isSignup ? 'S’inscrire' : 'Se connecter';
-        if (authPasswordLabel) authPasswordLabel.textContent = isSignup ? 'Créer un mot de passe' : 'Mot de passe';
-        if (authPasswordInput) authPasswordInput.autocomplete = isSignup ? 'new-password' : 'current-password';
-        if (authPasswordConfirmGroup) authPasswordConfirmGroup.style.display = isSignup ? 'flex' : 'none';
-        if (authPasswordConfirmInput) authPasswordConfirmInput.required = isSignup;
+        if (authTitle) {
+            authTitle.textContent = isSignup ? 'S’inscrire'
+                : isForgot ? 'Mot de passe oublié'
+                    : isReset ? 'Nouveau mot de passe'
+                        : 'Se connecter';
+        }
+        if (authPasswordLabel) authPasswordLabel.textContent = isReset || isSignup ? 'Créer un mot de passe' : 'Mot de passe';
+        if (authPasswordInput) {
+            authPasswordInput.autocomplete = isLogin ? 'current-password' : 'new-password';
+            authPasswordInput.required = hasPassword;
+        }
+        if (authPasswordGroup) authPasswordGroup.style.display = hasPassword ? 'flex' : 'none';
+        if (authPasswordConfirmGroup) authPasswordConfirmGroup.style.display = isSignup || isReset ? 'flex' : 'none';
+        if (authPasswordConfirmInput) authPasswordConfirmInput.required = isSignup || isReset;
+        if (authForgotLink) authForgotLink.style.display = isLogin ? 'inline' : 'none';
+        if (authBackToLoginBtn) authBackToLoginBtn.style.display = isForgot || isReset ? 'block' : 'none';
         if (authSubtitle) {
             authSubtitle.textContent = isSignup
                 ? 'Créez votre compte avec une adresse e-mail et un mot de passe.'
-                : 'Connectez-vous avec votre adresse e-mail et votre mot de passe.';
+                : isForgot
+                    ? 'Saisissez votre adresse e-mail pour recevoir un lien de réinitialisation.'
+                    : isReset
+                        ? 'Choisissez un nouveau mot de passe pour votre compte.'
+                        : 'Connectez-vous avec votre adresse e-mail et votre mot de passe.';
         }
         if (authSubmitBtn) {
-            authSubmitBtn.innerHTML = `<span>${isSignup ? 'Créer mon compte' : 'Se connecter'}</span> <i class="fas fa-${isSignup ? 'user-plus' : 'right-to-bracket'}"></i>`;
+            const label = isSignup ? 'Créer mon compte'
+                : isForgot ? 'Envoyer le lien'
+                    : isReset ? 'Modifier mon mot de passe'
+                        : 'Se connecter';
+            const icon = isSignup ? 'user-plus' : isForgot ? 'envelope' : isReset ? 'key' : 'right-to-bracket';
+            authSubmitBtn.innerHTML = `<span>${label}</span> <i class="fas fa-${icon}"></i>`;
         }
         setAlert(null);
     };
 
     if (authModeLoginBtn) authModeLoginBtn.addEventListener('click', () => setAuthMode('login'));
     if (authModeSignupBtn) authModeSignupBtn.addEventListener('click', () => setAuthMode('signup'));
-    setAuthMode('login');
+    if (authForgotLink) authForgotLink.addEventListener('click', () => setAuthMode('forgot'));
+    if (authBackToLoginBtn) authBackToLoginBtn.addEventListener('click', () => setAuthMode('login'));
+    const resetTokenFromUrl = new URLSearchParams(window.location.search).get('resetToken');
+    setAuthMode(resetTokenFromUrl ? 'reset' : 'login');
 
     if (authForm) {
         authForm.addEventListener('submit', async (e) => {
@@ -201,13 +237,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!identifier || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier)) {
                 return setAlert('Veuillez renseigner une adresse e-mail valide.');
             }
-            if (password.length < 8) {
+            if (currentAuthMode !== 'forgot' && password.length < 8) {
                 return setAlert('Le mot de passe doit contenir au moins 8 caractères.');
             }
             if (currentAuthMode === 'signup' && !name) {
                 return setAlert('Veuillez renseigner votre nom complet.');
             }
-            if (currentAuthMode === 'signup' && password !== passwordConfirm) {
+            if ((currentAuthMode === 'signup' || currentAuthMode === 'reset') && password !== passwordConfirm) {
                 return setAlert('Les mots de passe ne correspondent pas.');
             }
 
@@ -215,16 +251,35 @@ document.addEventListener('DOMContentLoaded', () => {
             authSubmitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Veuillez patienter...';
 
             try {
-                const endpoint = currentAuthMode === 'signup' ? '/api/auth/register' : '/api/auth/login';
+                const endpoint = currentAuthMode === 'signup' ? '/api/auth/register'
+                    : currentAuthMode === 'forgot' ? '/api/auth/forgot-password'
+                        : currentAuthMode === 'reset' ? '/api/auth/reset-password'
+                            : '/api/auth/login';
                 const payload = currentAuthMode === 'signup'
                     ? { name, identifier, password, passwordConfirm }
-                    : { identifier, password };
+                    : currentAuthMode === 'forgot'
+                        ? { identifier }
+                        : currentAuthMode === 'reset'
+                            ? { resetToken: resetTokenFromUrl, password, passwordConfirm }
+                            : { identifier, password };
                 const response = await fetch(`${API_BASE}${endpoint}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
                 const result = await readApiResponse(response);
+                if (currentAuthMode === 'forgot') {
+                    setAlert(result.message, 'success');
+                    return;
+                }
+                if (currentAuthMode === 'reset') {
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('resetToken');
+                    window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+                    setAuthMode('login');
+                    setAlert(result.message || 'Votre mot de passe a été modifié. Vous pouvez vous connecter.', 'success');
+                    return;
+                }
                 if (!result.user || !result.token) {
                     throw new Error('La réponse du serveur est incomplète. Réessayez plus tard.');
                 }
@@ -236,8 +291,18 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (err) {
                 setAlert(err.message || 'Impossible de joindre le serveur. Réessayez plus tard.');
             } finally {
-                authSubmitBtn.disabled = false;
-                authSubmitBtn.innerHTML = `<span>${currentAuthMode === 'signup' ? 'Créer mon compte' : 'Se connecter'}</span> <i class="fas fa-${currentAuthMode === 'signup' ? 'user-plus' : 'right-to-bracket'}"></i>`;
+                if (authSubmitBtn) authSubmitBtn.disabled = false;
+                if (authSubmitBtn) {
+                    const label = currentAuthMode === 'signup' ? 'Créer mon compte'
+                        : currentAuthMode === 'forgot' ? 'Envoyer le lien'
+                            : currentAuthMode === 'reset' ? 'Modifier mon mot de passe'
+                                : 'Se connecter';
+                    const icon = currentAuthMode === 'signup' ? 'user-plus'
+                        : currentAuthMode === 'forgot' ? 'envelope'
+                            : currentAuthMode === 'reset' ? 'key'
+                                : 'right-to-bracket';
+                    authSubmitBtn.innerHTML = `<span>${label}</span> <i class="fas fa-${icon}"></i>`;
+                }
             }
         });
     }
@@ -267,6 +332,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Restaurer uniquement les sessions créées par l'authentification par mot de passe
+    if (resetTokenFromUrl) {
+        localStorage.removeItem('imoAuthUser');
+        localStorage.removeItem('imoAuthToken');
+    }
     const savedToken = localStorage.getItem('imoAuthToken');
     if (savedToken) {
         document.body.classList.add('auth-locked');

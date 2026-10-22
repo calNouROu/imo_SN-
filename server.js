@@ -4,10 +4,11 @@ const express = require('express');
 const http = require('node:http');
 const path = require('node:path');
 const fs = require('node:fs');
-const { randomUUID, randomBytes, scrypt, timingSafeEqual } = require('node:crypto');
+const { randomUUID, randomBytes, createHash, scrypt, timingSafeEqual } = require('node:crypto');
 const { promisify } = require('node:util');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
 
 const scryptAsync = promisify(scrypt);
 
@@ -306,6 +307,83 @@ const createAuthResponse = (user) => {
     );
     return { success: true, token, user: publicUser };
 };
+
+app.post('/api/auth/forgot-password', async (req, res) => {
+    const identifier = String(req.body.identifier || '').trim().toLowerCase();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(identifier)) {
+        return res.status(400).json({ error: 'Veuillez renseigner une adresse e-mail valide.' });
+    }
+
+    const smtpPort = Number(process.env.SMTP_PORT || 587);
+    if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS || !Number.isInteger(smtpPort) || smtpPort < 1 || smtpPort > 65535) {
+        return res.status(503).json({ error: 'La récupération du mot de passe est indisponible. Veuillez réessayer plus tard.' });
+    }
+
+    const user = db.users.find(account => account.identifier === identifier);
+    if (!user) {
+        return res.json({ success: true, message: 'Si cette adresse correspond à un compte, un lien de réinitialisation sera envoyé.' });
+    }
+
+    const resetToken = randomBytes(32).toString('hex');
+    user.passwordResetTokenHash = createHash('sha256').update(resetToken).digest('hex');
+    user.passwordResetExpiresAt = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+    saveDatabase(db);
+
+    const resetUrl = new URL('/', publicUrl);
+    resetUrl.searchParams.set('resetToken', resetToken);
+    try {
+        const transporter = nodemailer.createTransport({
+            host: process.env.SMTP_HOST,
+            port: smtpPort,
+            secure: smtpPort === 465,
+            auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS }
+        });
+        await transporter.sendMail({
+            from: process.env.SMTP_USER,
+            to: user.identifier,
+            subject: 'Réinitialisation de votre mot de passe Imo-SN',
+            text: `Vous avez demandé à réinitialiser votre mot de passe Imo-SN. Ouvrez ce lien dans l'heure qui suit : ${resetUrl.toString()}\n\nSi vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail.`
+        });
+        return res.json({ success: true, message: 'Si cette adresse correspond à un compte, un lien de réinitialisation sera envoyé.' });
+    } catch (error) {
+        delete user.passwordResetTokenHash;
+        delete user.passwordResetExpiresAt;
+        saveDatabase(db);
+        console.error('Erreur lors de l’envoi du lien de réinitialisation:', error.message);
+        return res.status(502).json({ error: 'Impossible d’envoyer l’e-mail de réinitialisation. Veuillez réessayer plus tard.' });
+    }
+});
+
+app.post('/api/auth/reset-password', async (req, res) => {
+    const resetToken = typeof req.body.resetToken === 'string' ? req.body.resetToken : '';
+    const password = typeof req.body.password === 'string' ? req.body.password : '';
+    const passwordConfirm = typeof req.body.passwordConfirm === 'string' ? req.body.passwordConfirm : '';
+
+    if (!/^[a-f0-9]{64}$/.test(resetToken)) {
+        return res.status(400).json({ error: 'Ce lien de réinitialisation est invalide ou expiré.' });
+    }
+    if (password.length < 8 || password.length > 128) {
+        return res.status(400).json({ error: 'Le mot de passe doit contenir entre 8 et 128 caractères.' });
+    }
+    if (password !== passwordConfirm) {
+        return res.status(400).json({ error: 'Les mots de passe ne correspondent pas.' });
+    }
+
+    const tokenHash = createHash('sha256').update(resetToken).digest('hex');
+    const user = db.users.find(account =>
+        account.passwordResetTokenHash === tokenHash &&
+        Date.parse(account.passwordResetExpiresAt) > Date.now()
+    );
+    if (!user) {
+        return res.status(400).json({ error: 'Ce lien de réinitialisation est invalide ou expiré.' });
+    }
+
+    user.passwordHash = await hashPassword(password);
+    delete user.passwordResetTokenHash;
+    delete user.passwordResetExpiresAt;
+    saveDatabase(db);
+    return res.json({ success: true, message: 'Votre mot de passe a été modifié. Vous pouvez vous connecter.' });
+});
 
 app.post('/api/auth/register', async (req, res) => {
     const name = String(req.body.name || '').trim();

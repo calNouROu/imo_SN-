@@ -2120,6 +2120,10 @@ body.auth-locked {
     text-decoration: underline;
 }
 
+.auth-back-link {
+    align-self: center;
+}
+
 .input-wrap {
     position: relative;
     display: flex;
