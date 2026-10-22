@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: imo-sn
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: API_BASE_URL
+        value: https://imo-sn.onrender.com
+      - key: PUBLIC_URL
+        value: https://imo-sn.onrender.com
+      - key: FRONTEND_URL
+        value: https://imo-sn.onrender.com
+      - key: PAYDUNYA_MASTER_KEY
+        sync: True
+      - key: PAYDUNYA_PRIVATE_KEY
+        sync: true
+      - key: PAYDUNYA_TOKEN
+        sync: true
+      - key: PAYDUNYA_MODE
+        value: live
+      - key: MONGO_URI
+        sync: false
+      - key: PAYDUNYA_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false

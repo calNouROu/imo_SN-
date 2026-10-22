@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Imo-SN — Votre partenaire immobilier de confiance au Sénégal. Vente, location et gestion de biens à Dakar et partout au Sénégal.">
+    <meta name="keywords" content="immobilier, Sénégal, Dakar, maison, appartement, location, vente, terrain, Imo-SN">
+    <meta name="author" content="Imo-SN">
+    <meta property="og:title" content="Imo-SN | Immobilier au Sénégal">
+    <meta property="og:description"
+        content="Trouvez votre maison idéale au Sénégal avec Imo-SN. Vente, location et gestion de biens.">
+    <meta property="og:type" content="website">
+    <title>Imo-SN | Immobilier au Sénégal — Vente, Location & Gestion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/png" href="assets/logo-immo.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ===================== PORTAIL D'AUTHENTIFICATION ===================== -->
+    <div class="auth-gate" id="authGate">
+        <div class="auth-gate-backdrop"></div>
+        <div class="auth-card" id="authCard">
+            <aside class="auth-promo" aria-label="Imo-SN immobilier au Sénégal">
+                <div class="auth-promo-brand">
+                    <span class="auth-promo-logo"><i class="fas fa-house-chimney"></i> Imo-SN</span>
+                    <span>IMMOBILIER AU SÉNÉGAL</span>
+                </div>
+
+                <div class="auth-promo-copy">
+                    <span class="auth-promo-eyebrow">Trouvez votre prochain chez-vous</span>
+                    <h1>Un nouveau lieu. Une nouvelle histoire.</h1>
+                    <p>Découvrez des biens sélectionnés à Dakar et partout au Sénégal.</p>
+                </div>
+
+                <div class="auth-promo-footer">
+                    <i class="fas fa-location-dot"></i>
+                    <span>Vente · Location · Gestion</span>
+                </div>
+            </aside>
+
+            <section class="auth-content" aria-label="Connexion à Imo-SN">
+                <div class="auth-header">
+                    <h2 class="auth-title" id="authTitle">Se connecter</h2>
+                    <p class="auth-subtitle" id="authSubtitle">Connectez-vous avec votre adresse e-mail et votre mot de passe.</p>
+                </div>
+
+                <!-- Message d'alerte dynamique -->
+                <div class="auth-alert" id="authAlert" style="display: none;"></div>
+
+            <div id="authStep">
+                <div class="auth-mode-tabs" role="group" aria-label="Choisir un parcours">
+                    <button type="button" class="auth-mode-tab active" id="authModeLoginBtn" aria-pressed="true">Se connecter</button>
+                    <button type="button" class="auth-mode-tab" id="authModeSignupBtn" aria-pressed="false">S'inscrire</button>
+                </div>
+
+                <form class="auth-form" id="authForm">
+                    <div class="form-group" id="authFullNameGroup" style="display: none;">
+                        <label for="authFullName">Nom complet</label>
+                        <div class="input-wrap">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="authFullName" placeholder="ex: Cheikh Fall" autocomplete="name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="authEmailInput">Adresse e-mail</label>
+                        <div class="input-wrap">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" id="authEmailInput" placeholder="ex: cheikh.fall@gmail.com" autocomplete="email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="authPasswordGroup">
+                        <label for="authPassword" id="authPasswordLabel">Mot de passe</label>
+                        <div class="input-wrap">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="authPassword" placeholder="8 caractères minimum" autocomplete="current-password" minlength="8" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="authPasswordConfirmGroup" style="display: none;">
+                        <label for="authPasswordConfirm">Confirmer le mot de passe</label>
+                        <div class="input-wrap">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="authPasswordConfirm" placeholder="Répétez le mot de passe" autocomplete="new-password" minlength="8">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary auth-submit-btn" id="authSubmitBtn">
+                        <span>Continuer</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+
+                <div class="auth-footer">
+                    <i class="fas fa-shield-halved"></i>
+                    <span>Connexion sécurisée · Imo-SN Sénégal</span>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+    <!-- ===================== NAVBAR ===================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo" aria-label="Imo-SN Accueil">
+                <img src="assets/logo-immo.png" alt="Logo Imo-SN" class="nav-logo-img">
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html#accueil" class="nav-link active">Accueil</a></li>
+                <li><a href="biens.html" class="nav-link"><i class="fas fa-city"></i> Tous les Biens</a></li>
+                <li><a href="index.html#comment-ca-marche" class="nav-link">Comment ça marche</a></li>
+                <li><a href="index.html#a-propos" class="nav-link">À propos</a></li>
+                <li><a href="#" class="nav-link" id="navChatLink"><i class="fas fa-comments"></i> Messagerie</a></li>
+                <li><a href="index.html#contact" class="nav-link nav-link--cta">Nous contacter</a></li>
+            </ul>
+            <div class="nav-actions">
+                <!-- Widget Profil Utilisateur Connecté -->
+                <div class="user-profile-badge" id="userProfileBadge" style="display: none;">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <span class="user-name" id="userName">Utilisateur</span>
+                    <button type="button" class="logout-btn" id="logoutBtn" title="Se déconnecter" aria-label="Se déconnecter">
+                        <i class="fas fa-power-off"></i>
+                    </button>
+                </div>
+                <button class="theme-toggle" id="themeToggle" type="button" aria-label="Activer le mode sombre" title="Changer de thème">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
+                    <span class="hamburger"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <div class="nav-backdrop" id="navBackdrop"></div>
+
+    <!-- ===================== HERO ===================== -->
+    <header class="hero" id="accueil">
+        <div class="hero-overlay"></div>
+        <div class="hero-particles" id="heroParticles"></div>
+        <div class="hero-content">
+            <span class="hero-badge">
+                <i class="fas fa-shield-halved"></i> L'immobilier plus transparent au Sénégal
+            </span>
+            <p class="prototype-disclosure">Prototype de démonstration : annonces, notes et profils fictifs. Les contrôles KYC et paiements ne sont pas activés.</p>
+            <h1 class="hero-title">
+                Trouvez un logement fiable. <span class="text-gradient">Sans avancer à l'aveugle.</span>
+            </h1>
+            <p class="hero-subtitle">
+                Consultez l'identité du bailleur, sa note, son numéro et l'emplacement du bien avant de prendre contact.
+            </p>
+            <div class="hero-buttons">
+                <a href="#biens" class="btn btn-primary">
+                    <i class="fas fa-building"></i> Voir les biens
+                </a>
+                <a href="#comment-ca-marche" class="btn btn-outline">
+                    <i class="fas fa-play-circle"></i> Commencer
+                </a>
+            </div>
+
+            <!-- Barre de recherche rapide -->
+            <div class="hero-search" id="heroSearch">
+                <div class="hero-search-field">
+                    <i class="fas fa-home"></i>
+                    <select id="searchType" aria-label="Type de transaction">
+                        <option value="all">Tous types (Vente &amp; Location)</option>
+                        <option value="vente">À vendre</option>
+                        <option value="location">À louer</option>
+                    </select>
+                </div>
+                <div class="hero-search-field">
+                    <i class="fas fa-location-dot"></i>
+                    <select id="searchLocation" aria-label="Localisation">
+                        <option value="all">Toutes localisations (Dakar, Saly...)</option>
+                        <option value="almadies">Almadies, Dakar</option>
+                        <option value="plateau">Plateau, Dakar</option>
+                        <option value="ngor">Ngor, Dakar</option>
+                        <option value="mermoz">Mermoz, Dakar</option>
+                        <option value="diamniadio">Diamniadio, Dakar</option>
+                        <option value="saly">Saly, Mbour</option>
+                    </select>
+                </div>
+                <button type="button" class="hero-search-btn" id="heroSearchBtn">
+                    <i class="fas fa-search"></i> Rechercher
+                </button>
+            </div>
+
+            <div class="hero-trust-signals" aria-label="Informations disponibles sur les annonces">
+                <span><i class="fas fa-id-card"></i> Identité du bailleur</span>
+                <span><i class="fas fa-star"></i> Avis des locataires</span>
+                <span><i class="fas fa-map-location-dot"></i> Adresse sur la carte</span>
+            </div>
+        </div>
+        <div class="hero-scroll-indicator">
+            <a href="#comment-ca-marche" aria-label="Défiler vers le bas">
+                <div class="scroll-mouse">
+                    <div class="scroll-wheel"></div>
+                </div>
+            </a>
+        </div>
+    </header>
+
+    <!-- ===================== COMMENT ÇA MARCHE ===================== -->
+    <section class="section section--steps" id="comment-ca-marche">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Simple & Rapide</span>
+                <h2 class="section-title">Comment ça <span class="text-gradient">marche</span> ?</h2>
+                <p class="section-subtitle">Trouvez votre bien en 3 étapes simples</p>
+            </div>
+            <div class="steps-grid">
+                <div class="step-card" data-aos="fade-up">
+                    <div class="step-number">01</div>
+                    <div class="step-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="step-title">Recherchez un bien</h3>
+                    <p class="step-desc">Parcourez notre catalogue de biens immobiliers à Dakar et partout au Sénégal.
+                        Filtrez par type, prix et localisation.</p>
+                </div>
+                <div class="step-connector">
+                    <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+                        <path d="M0 10 Q25 0 50 10 Q75 20 100 10" stroke="var(--primary)" stroke-width="2" fill="none"
+                            stroke-dasharray="6 4" />
+                    </svg>
+                </div>
+                <div class="step-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="step-number">02</div>
+                    <div class="step-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="step-title">Visitez & Contactez</h3>
+                    <p class="step-desc">Planifiez une visite et échangez directement avec nos agents experts pour
+                        obtenir tous les détails du bien.</p>
+                </div>
+                <div class="step-connector">
+                    <svg viewBox="0 0 100 20" preserveAspectRatio="none">
+                        <path d="M0 10 Q25 0 50 10 Q75 20 100 10" stroke="var(--primary)" stroke-width="2" fill="none"
+                            stroke-dasharray="6 4" />
+                    </svg>
+                </div>
+                <div class="step-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="step-number">03</div>
+                    <div class="step-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <h3 class="step-title">Finalisez</h3>
+                    <p class="step-desc">Concluez votre achat ou location en toute sérénité avec notre accompagnement
+                        juridique et administratif complet.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== À PROPOS ===================== -->
+    <section class="section section--about" id="a-propos">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-images" data-aos="fade-right">
+                    <div class="about-img-main">
+                        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=750&fit=crop&q=80"
+                            alt="Bureau Imo-SN à Dakar" loading="lazy">
+                    </div>
+                    <div class="about-img-float">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=300&fit=crop&q=80"
+                            alt="Villa moderne à Dakar" loading="lazy">
+                    </div>
+                    <div class="about-experience-badge">
+                        <span class="badge-number">15+</span>
+                        <span class="badge-text">Années<br>d'expérience</span>
+                    </div>
+                </div>
+                <div class="about-content" data-aos="fade-left">
+                    <span class="section-tag">Qui sommes-nous ?</span>
+                    <h2 class="section-title text-left">Votre partenaire de <span class="text-gradient">confiance</span>
+                    </h2>
+                    <p class="about-text">
+                        <strong>Imo-SN</strong> est une entreprise immobilière sénégalaise fondée avec la vision de
+                        rendre l'accès à la propriété simple, transparent et accessible à tous. Basée à Dakar, nous
+                        intervenons sur l'ensemble du territoire national.
+                    </p>
+                    <div class="about-values">
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-shield-halved"></i></div>
+                            <div>
+                                <h4>Confiance & Transparence</h4>
+                                <p>Des transactions claires et sécurisées, sans mauvaises surprises.</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-map-location-dot"></i></div>
+                            <div>
+                                <h4>Expertise locale</h4>
+                                <p>Une connaissance approfondie du marché immobilier sénégalais.</p>
+                            </div>
+                        </div>
+                        <div class="value-item">
+                            <div class="value-icon"><i class="fas fa-users"></i></div>
+                            <div>
+                                <h4>Accompagnement humain</h4>
+                                <p>Des conseillers dédiés qui vous guident à chaque étape.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#biens" class="btn btn-primary">
+                        <i class="fas fa-arrow-right"></i> Découvrir nos biens
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== BIENS IMMOBILIERS ===================== -->
+    <section class="section section--properties" id="biens">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Nos Offres</span>
+                <h2 class="section-title">Biens <span class="text-gradient">immobiliers</span></h2>
+                <p class="section-subtitle">Comparez les annonces, les profils et les emplacements avant de contacter un bailleur. Données de démonstration.</p>
+            </div>
+
+            <div class="property-filters">
+                <button class="filter-btn active" data-filter="all">Tous</button>
+                <button class="filter-btn" data-filter="vente">Vente</button>
+                <button class="filter-btn" data-filter="location">Location</button>
+            </div>
+
+            <div class="properties-grid">
+                <!-- Property 1 -->
+                <div class="property-card" data-type="vente" data-location="almadies" data-aos="fade-up">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&h=400&fit=crop&q=80"
+                            alt="Villa moderne à Almadies" loading="lazy">
+                        <span class="property-badge property-badge--vente">À vendre</span>
+                        <span class="property-views-badge" data-property-id="1">
+                            <i class="fas fa-eye"></i> <span class="view-count-val">342</span> vues
+                        </span>
+                        <div class="property-price">185 000 000 FCFA</div>
+                        <button class="property-favorite" aria-label="Ajouter aux favoris">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-title">Villa Moderne de Luxe</h3>
+                        <p class="property-location">
+                            <i class="fas fa-location-dot"></i> Almadies, Dakar
+                        </p>
+                        <div class="property-features">
+                            <span><i class="fas fa-bed"></i> 5 Chambres</span>
+                            <span><i class="fas fa-bath"></i> 3 SdB</span>
+                            <span><i class="fas fa-ruler-combined"></i> 450 m²</span>
+                        </div>
+                        
+                        <!-- Informations Complètes du Bailleur -->
+                        <div class="property-landlord-box">
+                            <div class="landlord-row">
+                                <span class="landlord-name"><i class="fas fa-circle-user"></i> Cheikh Fall <i class="fas fa-check-circle landlord-verified" title="Bailleur certifié"></i></span>
+                                <span class="landlord-company">Imo-SN Prestige</span>
+                            </div>
+                            <div class="landlord-detail-row">
+                                <span><i class="fas fa-phone"></i> +221 78 984 65 29</span>
+                                <span><i class="fas fa-location-dot"></i> Route des Almadies, Dakar</span>
+                            </div>
+                        </div>
+
+                        <div class="property-footer" style="flex-direction: column; gap: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span class="property-type"><i class="fas fa-home"></i> Villa</span>
+                                <button type="button" class="property-cta" data-property-id="1">Voir détails <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                            <button type="button" class="btn-contact-landlord" data-property-id="1" data-landlord="Cheikh Fall">
+                                <i class="fas fa-comment-dots"></i> Contacter le bailleur
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 2 -->
+                <div class="property-card" data-type="location" data-location="plateau" data-aos="fade-up" data-aos-delay="100">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&h=400&fit=crop&q=80"
+                            alt="Appartement meublé Plateau" loading="lazy">
+                        <span class="property-badge property-badge--location">À louer</span>
+                        <span class="property-views-badge" data-property-id="2">
+                            <i class="fas fa-eye"></i> <span class="view-count-val">512</span> vues
+                        </span>
+                        <div class="property-price">750 000 FCFA<small>/mois</small></div>
+                        <button class="property-favorite" aria-label="Ajouter aux favoris">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-title">Appartement Meublé Standing</h3>
+                        <p class="property-location">
+                            <i class="fas fa-location-dot"></i> Plateau, Dakar
+                        </p>
+                        <div class="property-features">
+                            <span><i class="fas fa-bed"></i> 3 Chambres</span>
+                            <span><i class="fas fa-bath"></i> 2 SdB</span>
+                            <span><i class="fas fa-ruler-combined"></i> 180 m²</span>
+                        </div>
+                        
+                        <!-- Informations Complètes du Bailleur -->
+                        <div class="property-landlord-box">
+                            <div class="landlord-row">
+                                <span class="landlord-name"><i class="fas fa-circle-user"></i> Fatou Sow <i class="fas fa-check-circle landlord-verified" title="Bailleur certifié"></i></span>
+                                <span class="landlord-company">Dakar Habitat</span>
+                            </div>
+                            <div class="landlord-detail-row">
+                                <span><i class="fas fa-phone"></i> +221 77 555 44 33</span>
+                                <span><i class="fas fa-location-dot"></i> Avenue Roume, Dakar Plateau</span>
+                            </div>
+                        </div>
+
+                        <div class="property-footer" style="flex-direction: column; gap: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span class="property-type"><i class="fas fa-building"></i> Appartement</span>
+                                <button type="button" class="property-cta" data-property-id="2">Voir détails <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                            <button type="button" class="btn-contact-landlord" data-property-id="2" data-landlord="Fatou Sow">
+                                <i class="fas fa-comment-dots"></i> Contacter le bailleur
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 3 -->
+                <div class="property-card" data-type="vente" data-location="saly" data-aos="fade-up" data-aos-delay="200">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop&q=80"
+                            alt="Villa avec piscine Saly" loading="lazy">
+                        <span class="property-badge property-badge--vente">À vendre</span>
+                        <span class="property-views-badge" data-property-id="3">
+                            <i class="fas fa-eye"></i> <span class="view-count-val">289</span> vues
+                        </span>
+                        <div class="property-price">120 000 000 FCFA</div>
+                        <button class="property-favorite" aria-label="Ajouter aux favoris">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-title">Villa Balnéaire avec Piscine</h3>
+                        <p class="property-location">
+                            <i class="fas fa-location-dot"></i> Saly, Mbour
+                        </p>
+                        <div class="property-features">
+                            <span><i class="fas fa-bed"></i> 4 Chambres</span>
+                            <span><i class="fas fa-bath"></i> 3 SdB</span>
+                            <span><i class="fas fa-ruler-combined"></i> 380 m²</span>
+                        </div>
+
+                        <!-- Informations Complètes du Bailleur -->
+                        <div class="property-landlord-box">
+                            <div class="landlord-row">
+                                <span class="landlord-name"><i class="fas fa-circle-user"></i> Mamadou Diop <i class="fas fa-check-circle landlord-verified" title="Bailleur certifié"></i></span>
+                                <span class="landlord-company">Saly Immo Conseil</span>
+                            </div>
+                            <div class="landlord-detail-row">
+                                <span><i class="fas fa-phone"></i> +221 77 111 22 33</span>
+                                <span><i class="fas fa-location-dot"></i> Boulevard Maritime, Saly</span>
+                            </div>
+                        </div>
+
+                        <div class="property-footer" style="flex-direction: column; gap: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span class="property-type"><i class="fas fa-home"></i> Villa</span>
+                                <button type="button" class="property-cta" data-property-id="3">Voir détails <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                            <button type="button" class="btn-contact-landlord" data-property-id="3" data-landlord="Mamadou Diop">
+                                <i class="fas fa-comment-dots"></i> Contacter le bailleur
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 4 -->
+                <div class="property-card" data-type="vente" data-location="diamniadio" data-aos="fade-up" data-aos-delay="300">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=400&fit=crop&q=80"
+                            alt="Terrain viabilisé Diamniadio" loading="lazy">
+                        <span class="property-badge property-badge--vente">À vendre</span>
+                        <span class="property-views-badge" data-property-id="4">
+                            <i class="fas fa-eye"></i> <span class="view-count-val">198</span> vues
+                        </span>
+                        <div class="property-price">25 000 000 FCFA</div>
+                        <button class="property-favorite" aria-label="Ajouter aux favoris">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-title">Terrain Viabilisé & Titre Foncier</h3>
+                        <p class="property-location">
+                            <i class="fas fa-location-dot"></i> Diamniadio, Dakar
+                        </p>
+                        <div class="property-features">
+                            <span><i class="fas fa-ruler-combined"></i> 500 m²</span>
+                            <span><i class="fas fa-road"></i> Goudronné</span>
+                            <span><i class="fas fa-file-contract"></i> TF</span>
+                        </div>
+
+                        <!-- Informations Complètes du Bailleur -->
+                        <div class="property-landlord-box">
+                            <div class="landlord-row">
+                                <span class="landlord-name"><i class="fas fa-circle-user"></i> Amath Ba <i class="fas fa-check-circle landlord-verified" title="Bailleur certifié"></i></span>
+                                <span class="landlord-company">Terrains du Cap</span>
+                            </div>
+                            <div class="landlord-detail-row">
+                                <span><i class="fas fa-phone"></i> +221 76 444 55 66</span>
+                                <span><i class="fas fa-location-dot"></i> Pôle Urbain de Diamniadio</span>
+                            </div>
+                        </div>
+
+                        <div class="property-footer" style="flex-direction: column; gap: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span class="property-type"><i class="fas fa-mountain-sun"></i> Terrain</span>
+                                <button type="button" class="property-cta" data-property-id="4">Voir détails <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                            <button type="button" class="btn-contact-landlord" data-property-id="4" data-landlord="Amath Ba">
+                                <i class="fas fa-comment-dots"></i> Contacter le bailleur
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 5 -->
+                <div class="property-card" data-type="location" data-location="mermoz" data-aos="fade-up" data-aos-delay="400">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop&q=80"
+                            alt="Duplex Mermoz" loading="lazy">
+                        <span class="property-badge property-badge--location">À louer</span>
+                        <span class="property-views-badge" data-property-id="5">
+                            <i class="fas fa-eye"></i> <span class="view-count-val">430</span> vues
+                        </span>
+                        <div class="property-price">1 200 000 FCFA<small>/mois</small></div>
+                        <button class="property-favorite" aria-label="Ajouter aux favoris">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-title">Duplex Haut Standing</h3>
+                        <p class="property-location">
+                            <i class="fas fa-location-dot"></i> Mermoz, Dakar
+                        </p>
+                        <div class="property-features">
+                            <span><i class="fas fa-bed"></i> 4 Chambres</span>
+                            <span><i class="fas fa-bath"></i> 3 SdB</span>
+                            <span><i class="fas fa-ruler-combined"></i> 300 m²</span>
+                        </div>
+
+                        <!-- Informations Complètes du Bailleur -->
+                        <div class="property-landlord-box">
+                            <div class="landlord-row">
+                                <span class="landlord-name"><i class="fas fa-circle-user"></i> Cheikh Fall <i class="fas fa-check-circle landlord-verified" title="Bailleur certifié"></i></span>
+                                <span class="landlord-company">Imo-SN Prestige</span>
+                            </div>
+                            <div class="landlord-detail-row">
+                                <span><i class="fas fa-phone"></i> +221 78 984 65 29</span>
+                                <span><i class="fas fa-location-dot"></i> Route des Almadies, Dakar</span>
+                            </div>
+                        </div>
+
+                        <div class="property-footer" style="flex-direction: column; gap: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span class="property-type"><i class="fas fa-building"></i> Duplex</span>
+                                <button type="button" class="property-cta" data-property-id="5">Voir détails <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                            <button type="button" class="btn-contact-landlord" data-property-id="5" data-landlord="Cheikh Fall">
+                                <i class="fas fa-comment-dots"></i> Contacter le bailleur
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 6 -->
+                <div class="property-card" data-type="vente" data-location="ngor" data-aos="fade-up" data-aos-delay="500">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=400&fit=crop&q=80"
+                            alt="Appartement Ngor" loading="lazy">
+                        <span class="property-badge property-badge--vente">À vendre</span>
+                        <span class="property-views-badge" data-property-id="6">
+                            <i class="fas fa-eye"></i> <span class="view-count-val">671</span> vues
+                        </span>
+                        <div class="property-price">65 000 000 FCFA</div>
+                        <button class="property-favorite" aria-label="Ajouter aux favoris">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="property-info">
+                        <h3 class="property-title">Appartement Vue Mer Panoramique</h3>
+                        <p class="property-location">
+                            <i class="fas fa-location-dot"></i> Ngor, Dakar
+                        </p>
+                        <div class="property-features">
+                            <span><i class="fas fa-bed"></i> 3 Chambres</span>
+                            <span><i class="fas fa-bath"></i> 2 SdB</span>
+                            <span><i class="fas fa-ruler-combined"></i> 200 m²</span>
+                        </div>
+
+                        <!-- Informations Complètes du Bailleur -->
+                        <div class="property-landlord-box">
+                            <div class="landlord-row">
+                                <span class="landlord-name"><i class="fas fa-circle-user"></i> Aminata Diallo <i class="fas fa-check-circle landlord-verified" title="Bailleur certifié"></i></span>
+                                <span class="landlord-company">Prestige Immo Dakar</span>
+                            </div>
+                            <div class="landlord-detail-row">
+                                <span><i class="fas fa-phone"></i> +221 70 999 88 77</span>
+                                <span><i class="fas fa-location-dot"></i> Corniche Ouest, Ngor</span>
+                            </div>
+                        </div>
+
+                        <div class="property-footer" style="flex-direction: column; gap: 8px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                                <span class="property-type"><i class="fas fa-building"></i> Appartement</span>
+                                <button type="button" class="property-cta" data-property-id="6">Voir détails <i class="fas fa-arrow-right"></i></button>
+                            </div>
+                            <button type="button" class="btn-contact-landlord" data-property-id="6" data-landlord="Aminata Diallo">
+                                <i class="fas fa-comment-dots"></i> Contacter le bailleur
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bouton Page Dédiée Biens -->
+            <div style="text-align: center; margin-top: 48px;" data-aos="fade-up">
+                <a href="biens.html" class="btn btn-primary" style="padding: 16px 36px; font-size: 1.05rem; box-shadow: var(--shadow-lg);">
+                    <i class="fas fa-city"></i> Accéder au Catalogue Complet des Biens
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== OFFRE BAILLEUR ===================== -->
+    <section class="landlord-plan-section" id="espace-bailleur">
+        <div class="container landlord-plan-content">
+            <div>
+                <span class="section-tag"><i class="fas fa-key"></i> Espace bailleur</span>
+                <h2 class="section-title">Publiez avec <span class="text-gradient">plus de confiance</span></h2>
+                <p class="landlord-plan-copy">Un abonnement mensuel indicatif pour publier vos biens, présenter votre profil et recevoir des demandes qualifiées.</p>
+            </div>
+            <div class="landlord-plan-offer">
+                <p class="landlord-plan-price">1 000 <small>FCFA / mois</small></p>
+                <p>Mise en avant des annonces disponible en option.</p>
+                <a class="btn btn-primary" href="mailto:Fallcheikhou1221@gmail.com?subject=Espace%20bailleur%20Imo-SN">
+                    <i class="fas fa-arrow-right"></i> Devenir bailleur
+                </a>
+            </div>
+            <p class="landlord-plan-disclosure">Offre présentée à titre de prototype. Inscription, vérification KYC et paiement en ligne ne sont pas encore disponibles.</p>
+        </div>
+    </section>
+
+    <!-- ===================== TÉMOIGNAGES ===================== -->
+    <section class="section section--testimonials" id="temoignages">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Avis Clients</span>
+                <h2 class="section-title">Ce que disent <span class="text-gradient">nos clients</span></h2>
+                <p class="section-subtitle">Découvrez les expériences de ceux qui nous ont fait confiance</p>
+            </div>
+            <div class="testimonials-grid">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card" data-aos="fade-up">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        "Grâce à Imo-SN, j'ai trouvé l'appartement parfait aux Almadies en moins de deux semaines.
+                        L'équipe a été d'une grande aide et très professionnelle. Je recommande vivement !"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar" style="background: linear-gradient(135deg, #0e5ed8, #1970e8);">
+                            <span>AD</span>
+                        </div>
+                        <div>
+                            <h4 class="testimonial-name">Aminata FALL</h4>
+                            <p class="testimonial-role">Acheteuse — Almadies, Dakar</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        "J'ai confié la gestion locative de mes 3 appartements à Imo-SN. Depuis, je n'ai plus aucun
+                        souci. Ils gèrent tout, des locataires aux réparations. Service exceptionnel !"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar" style="background: linear-gradient(135deg, #0a2d8d, #0d43b4);">
+                            <span>MS</span>
+                        </div>
+                        <div>
+                            <h4 class="testimonial-name">Cheikhouna FALL</h4>
+                            <p class="testimonial-role">Propriétaire — Plateau, Dakar</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="testimonial-stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star-half-stroke"></i>
+                    </div>
+                    <p class="testimonial-text">
+                        "Mon terrain à Diamniadio a été trouvé en un temps record. La transparence du processus et
+                        l'accompagnement juridique m'ont mis totalement en confiance. Merci Imo-SN !"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar" style="background: linear-gradient(135deg, #f5c34a, #e8a820);">
+                            <span>FN</span>
+                        </div>
+                        <div>
+                            <h4 class="testimonial-name">Fatou Ndiaye</h4>
+                            <p class="testimonial-role">Acheteuse — Diamniadio</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== CTA SECTION ===================== -->
+    <section class="section section--cta">
+        <div class="container">
+            <div class="cta-box">
+                <div class="cta-content">
+                    <h2>Prêt à trouver votre bien idéal ?</h2>
+                    <p>Contactez nos conseillers dès maintenant et bénéficiez d'un accompagnement personnalisé gratuit.</p>
+                    <div class="hero-buttons">
+                        <a href="tel:+221789846529" class="btn btn-primary btn-white">
+                            <i class="fas fa-phone"></i> Nous appeler
+                        </a>
+                        <button type="button" class="btn btn-outline btn-outline-white" id="ctaChatBtn">
+                            <i class="fas fa-comments"></i> Messagerie en direct
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="footer" id="contact">
+        <div class="footer-wave">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+                <path d="M0,60 C320,120 720,0 1440,60 L1440,120 L0,120 Z" fill="var(--dark)" />
+            </svg>
+        </div>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-col--brand">
+                    <a href="#" class="footer-logo-wrap" aria-label="Imo-SN Accueil">
+                        <img src="assets/logo-immo.png" alt="Logo Imo-SN" class="footer-logo">
+                    </a>
+                    <p class="footer-desc">
+                        Votre partenaire immobilier de confiance au Sénégal. Vente, location et gestion de biens depuis
+                        2010.
+                    </p>
+                    <div class="footer-socials">
+                        <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-heading">Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html#accueil">Accueil</a></li>
+                        <li><a href="biens.html">Tous les biens</a></li>
+                        <li><a href="index.html#comment-ca-marche">Comment ça marche</a></li>
+                        <li><a href="index.html#a-propos">À propos</a></li>
+                        <li><a href="index.html#temoignages">Témoignages</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-heading">Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Vente immobilière</a></li>
+                        <li><a href="#">Location</a></li>
+                        <li><a href="#">Gestion locative</a></li>
+                        <li><a href="#">Conseil juridique</a></li>
+                        <li><a href="#">Estimation gratuite</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 class="footer-heading">Contact</h4>
+                    <ul class="footer-contact">
+                        <li>
+                            <i class="fas fa-location-dot"></i>
+                            <span>Malika, Cité Sonatel, Sénégal</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+221789846529">+221 78 984 65 29</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:Fallcheikhou1221@gmail.com">Fallcheikhou1221@gmail.com</a>
+                        </li>
+                        <li>
+                            <i class="fas fa-clock"></i>
+                            <span>Lun - Sam : 8h - 18h</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 <strong>Imo-SN</strong>. Tous droits réservés.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Mentions légales</a>
+                    <a href="#">Politique de confidentialité</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===================== BOUTON MESSAGERIE FLOTTANT ===================== -->
+    <button type="button" class="chat-launcher-btn" id="chatLauncherBtn" aria-label="Ouvrir la messagerie Imo-SN" title="Discuter en direct">
+        <i class="fas fa-comments"></i>
+        <span class="chat-badge-count" id="chatUnreadCount" style="display: none;">1</span>
+    </button>
+
+    <!-- ===================== FENÊTRE DE CHAT EN TEMPS RÉEL ===================== -->
+    <div class="imo-chat-window" id="imoChatWindow" aria-hidden="true">
+        <div class="chat-header">
+            <div class="chat-user-meta">
+                <div class="chat-avatar" id="chatPartnerAvatar">
+                    <span>CF</span>
+                    <span class="status-indicator"></span>
+                </div>
+                <div class="chat-title-info">
+                    <h4 id="chatPartnerName">Cheikh Fall (Bailleur)</h4>
+                    <p id="chatPartnerStatus">🟢 En ligne • Répond en quelques min</p>
+                </div>
+            </div>
+            <div class="chat-header-actions">
+                <button type="button" class="chat-action-btn" id="startCallFromChatBtn" title="Lancer un appel audio" aria-label="Lancer un appel audio">
+                    <i class="fas fa-phone"></i>
+                </button>
+                <button type="button" class="chat-action-btn" id="closeChatBtn" title="Fermer la discussion" aria-label="Fermer la discussion">
+                    <i class="fas fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="chat-body" id="chatMessagesBody">
+            <!-- Contexte du bien consulté -->
+            <div class="chat-property-context" id="chatPropertyContext" style="display: none;">
+                <i class="fas fa-building" style="color: var(--primary-600);"></i>
+                <span id="chatPropertyTitleContext">Villa Moderne de Luxe</span>
+            </div>
+            
+            <div class="chat-bubble received">
+                Bonjour ! Bienvenue sur Imo-SN. Avez-vous une question concernant ce bien ou souhaitez-vous organiser une visite ?
+                <span class="chat-bubble-time">À l'instant</span>
+            </div>
+        </div>
+
+        <div class="chat-footer">
+            <div class="recording-status-bar" id="recordingStatusBar">
+                <span><i class="fas fa-circle" style="animation: pulseRecording 1s infinite;"></i> Enregistrement vocal : <strong id="voiceRecordTimer">0:00</strong></span>
+                <button type="button" id="cancelVoiceRecordBtn" style="background: none; border: none; color: #ef4444; font-weight: 700; cursor: pointer;">Annuler</button>
+            </div>
+
+            <div class="chat-input-row">
+                <input type="text" class="chat-text-input" id="chatTextInput" placeholder="Écrivez votre message..." autocomplete="off">
+                <button type="button" class="chat-tool-btn chat-voice-btn" id="voiceRecordBtn" title="Enregistrer un message vocal" aria-label="Enregistrer un vocal">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button type="button" class="chat-tool-btn chat-send-btn" id="sendMessageBtn" title="Envoyer" aria-label="Envoyer">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== OVERLAY APPEL AUDIO EN DIRECT ===================== -->
+    <div class="imo-call-overlay" id="imoCallOverlay" aria-hidden="true">
+        <div class="call-card">
+            <div class="call-avatar-wrap">
+                <div class="call-wave"></div>
+                <div class="call-wave"></div>
+                <div class="call-avatar" id="callAvatarInitial">CF</div>
+            </div>
+            <h3 class="call-name" id="callContactName">Cheikh Fall</h3>
+            <p class="call-property-subtitle" id="callPropertySub">Imo-SN Prestige</p>
+            <div class="call-status" id="callStatusText">Appel en cours...</div>
+            <div class="call-controls">
+                <button type="button" class="call-btn call-btn-mute" id="callMuteBtn" title="Couper le micro" aria-label="Couper le micro">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button type="button" class="call-btn call-btn-end" id="callEndBtn" title="Raccrocher" aria-label="Raccrocher">
+                    <i class="fas fa-phone-slash"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== BACK TO TOP ===================== -->
+    <button class="back-to-top" id="backToTop" aria-label="Retour en haut">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- ===================== MODAL DÉTAILS PROPRIÉTÉ ===================== -->
+    <div class="property-modal" id="propertyModal" aria-hidden="true" role="dialog" aria-labelledby="modalPropertyTitle">
+        <div class="modal-backdrop" id="modalBackdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose" aria-label="Fermer la fenêtre">
+                <i class="fas fa-xmark"></i>
+            </button>
+            <div class="modal-img-wrapper">
+                <img id="modalPropertyImg" src="" alt="Photo du bien">
+                <span class="modal-badge" id="modalPropertyBadge">À vendre</span>
+                <span class="property-views-badge" id="modalPropertyViews" style="top: 20px; right: 20px;">
+                    <i class="fas fa-eye"></i> <span id="modalViewsCount">0</span> vues
+                </span>
+            </div>
+            <div class="modal-body">
+                <div class="modal-header">
+                    <div>
+                        <h3 class="modal-title" id="modalPropertyTitle">Titre du bien</h3>
+                        <p class="modal-location" id="modalPropertyLocation">
+                            <i class="fas fa-location-dot"></i> Localisation
+                        </p>
+                    </div>
+                    <div class="modal-price" id="modalPropertyPrice">0 FCFA</div>
+                </div>
+                <div class="modal-features" id="modalPropertyFeatures">
+                    <!-- Rempli dynamiquement en JS -->
+                </div>
+                <p class="modal-desc" id="modalPropertyDesc">
+                    Description détaillée du bien...
+                </p>
+
+                <!-- Bloc Infos Bailleur dans la modal -->
+                <div class="property-landlord-box" id="modalLandlordBox">
+                    <div class="landlord-row">
+                        <span class="landlord-name" id="modalLandlordName"><i class="fas fa-circle-user"></i> Bailleur</span>
+                        <span class="landlord-company" id="modalLandlordCompany">Agence</span>
+                    </div>
+                    <div class="landlord-detail-row">
+                        <span id="modalLandlordPhone"><i class="fas fa-phone"></i> Numéro</span>
+                        <span id="modalLandlordAddress"><i class="fas fa-location-dot"></i> Adresse</span>
+                    </div>
+                    <div class="listing-trust-row" id="modalTrustRow"></div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="modalChatBtn" class="btn btn-primary">
+                        <i class="fas fa-comment-dots"></i> Discuter avec le bailleur
+                    </button>
+                    <a href="tel:+221789846529" id="modalCallAgentBtn" class="btn btn-outline-white" style="color: var(--primary-700); border-color: var(--primary-300);">
+                        <i class="fas fa-phone"></i> Appeler l'agent
+                    </a>
+                    <a href="#" id="modalWhatsAppBtn" class="btn btn-whatsapp" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                    <a href="#" id="modalMapBtn" class="btn btn-map" target="_blank" rel="noopener noreferrer">
+                        <i class="fas fa-map-location-dot"></i> Voir la carte
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== TOAST NOTIFICATION ===================== -->
+    <div class="toast" id="toastNotification" role="status" aria-live="polite">
+        <i class="fas fa-check-circle" style="color: var(--cyan-400);"></i>
+        <span id="toastMessage">Action effectuée</span>
+    </div>
+
+    <!-- Script de messagerie temps réel -->
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="config.js" onerror="window.__API_BASE_URL__ = '';"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
